@@ -99,6 +99,13 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
     //Getters---------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     /**
+     * @return the distance that animal has to be from the food, to eat it
+     * (food is nooooot another animal)
+     */
+    public int getEatDistance(){
+        return this.EAT_DISTANCE;
+    }
+    /**
      * @return horizontal speed of animal
      */
     public int getHorSpeed(){
@@ -111,10 +118,6 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
     public int getVerSpeed(){
         return this.verSpeed;
     }
-
-
-
-
 
     /**
      * get name
@@ -435,17 +438,28 @@ public abstract class Animal extends Mobile implements IEdible, IDrawable, IAnim
     }
 
 
-    /**
-     * draw the animal
-     * @param g
-     */
-    public void drawObject (Graphics g)
-    {
-        System.out.println("drawing animal");
-        if(x_dir==1) // giraffe goes to the right side
-            g.drawImage(img1, (int)getLocation().getX()-getSize()/2, (int)getLocation().getY()-getSize()/10, getSize()/2, getSize(), pan);
-        else // giraffe goes to the left side
-            g.drawImage(img2, (int)getLocation().getX(), (int)getLocation().getY()-getSize()/10, getSize()/2, getSize(), pan);
-    }
+ //   /**
+ //    * draw the animal
+ //    * @param g
+ //    */
+ //
+ //   public void drawObject (Graphics g)
+ //   {
+ //       System.out.println("drawing animal");
+ //       if(x_dir==1) // giraffe goes to the right side
+ //           g.drawImage(img1, (int)getLocation().getX()-getSize()/2, (int)getLocation().getY()-getSize()/10, getSize()/2, getSize(), pan);
+ //       else // giraffe goes to the left side
+ //           g.drawImage(img2, (int)getLocation().getX(), (int)getLocation().getY()-getSize()/10, getSize()/2, getSize(), pan);
+ //   }
+ public void drawObject (Graphics g)
+      {
+          System.out.println("drawing animal");
+          if(x_dir==1) // giraffe goes to the right side
+              g.drawImage(img1, (int)getLocation().getX(), (int)getLocation().getY(), getSize(), getSize(), pan);
+          else // giraffe goes to the left side
+              g.drawImage(img2, (int)getLocation().getX(), (int)getLocation().getY(), getSize(), getSize(), pan);
+      }
+
+
 
 }

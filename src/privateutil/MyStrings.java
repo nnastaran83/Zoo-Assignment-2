@@ -1,11 +1,18 @@
 package privateutil;
+
+import java.util.Map;
+
 /**
  * The interface MyStrings is used for creating global string constants
  * @author Nastaran Motiee - 329022727
  * @campus Ashdod
  * @version 1.0 March 27,22
  */
-public interface MyStrings {
+public final class MyStrings {
+
+    private MyStrings(){
+    }
+
     public final static String BEAR = "Bear";
     public final static String ELEPHANT = "Elephant";
     public final static String GIRAFFE = "Giraffe";
@@ -38,5 +45,8 @@ public interface MyStrings {
     public final static String INFO = "info";
     public final static String ADD_ANIMAL = "Add Animal";
     public final static String MOVE_ANIMAL = "Move Animal";
+    public final static String CABBAGE = "Cabbage";
+    public final static String LETTUCE = "Lettuce";
+    public final static String MEAT = "Meat";
 
 }

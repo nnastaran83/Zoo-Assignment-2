@@ -3,12 +3,22 @@ package plants;
 import food.EFoodType;
 import food.IEdible;
 import graphics.IDrawable;
+import graphics.ZooPanel;
 import mobility.ILocatable;
 import mobility.Point;
 import utilities.MessageUtility;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.sql.PreparedStatement;
 import java.util.Random;
+
+import static privateutil.MyStrings.CABBAGE;
+import static privateutil.MyStrings.LETTUCE;
 
 /**
  * @author baroh
@@ -27,6 +37,19 @@ public abstract class Plant implements IEdible, ILocatable, IDrawable {
 	 * 
 	 */
 	private double weight;
+	private ZooPanel pan;
+	private BufferedImage img;
+
+	/**
+	 * plant constructor
+	 * @param pan
+	 */
+	public Plant(ZooPanel pan){
+		this.pan = pan;
+		this.location = new Point(pan.getWidth()/2, pan.getHeight()/2);
+
+
+	}
 
 	/**
 	 * 
@@ -36,8 +59,7 @@ public abstract class Plant implements IEdible, ILocatable, IDrawable {
 		int x = rand.nextInt(30);
 		int y = rand.nextInt(12);
 		this.location = new Point(x, y);
-		this.height = rand.nextInt(30);
-		this.weight = rand.nextInt(12);
+
 		MessageUtility.logConstractor("Plant", "Plant");
 	}
 
@@ -127,15 +149,31 @@ public abstract class Plant implements IEdible, ILocatable, IDrawable {
 	}
 
 
+	/**
+	 * load images for the plant
+	 * @param nm name of the plant
+	 */
 	public void loadImages(String nm){
-		//TODO:???
-	}
-	public void drawObject (Graphics g){
-		//TODO:???
+		switch (nm){
+			case CABBAGE -> {
+				try {
+					this.img = ImageIO.read(new File(PICTURE_PATH+"cabbage.png"));
+				} catch (IOException exception) {
+					System.out.println("Image doesn't exist");
+				}
+			}
 
+			case LETTUCE -> {
+				try {
+					this.img = ImageIO.read(new File(PICTURE_PATH+"lettuce.png"));
+				} catch (IOException exception) {
+					System.out.println("Image doesn't exist");
+				}
+			}
+		}
 	}
+
 	public String getColor(){
-		//TODO: ???
 		return "";
 
 	}
@@ -148,6 +186,16 @@ public abstract class Plant implements IEdible, ILocatable, IDrawable {
 	@Override
 	public String toString() {
 		return "[" + this.getClass().getSimpleName() + "] ";
+	}
+
+	/**
+	 * draw the plant
+	 * @param g
+	 */
+	public void drawObject (Graphics g) {
+		System.out.println("drawing plant");
+		g.drawImage(img, (int)this.getLocation().getX(), (int)this.getLocation().getY(), 40,40, pan);
+
 	}
 
 }

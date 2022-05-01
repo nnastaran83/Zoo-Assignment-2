@@ -57,7 +57,7 @@ public class AddAnimalDialog extends JDialog implements ActionListener {
      *
      */
 
-    public AddAnimalDialog(JFrame parent){
+    public AddAnimalDialog(ZooFrame parent){
         super(parent, true);
         if(parent instanceof ZooFrame){
             this.parent =(ZooFrame) parent;

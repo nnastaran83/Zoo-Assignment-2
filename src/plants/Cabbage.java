@@ -1,5 +1,6 @@
 package plants;
 
+import graphics.ZooPanel;
 import utilities.MessageUtility;
 
 /**
@@ -7,8 +8,16 @@ import utilities.MessageUtility;
  *
  */
 public class Cabbage extends Plant {
+
+	public Cabbage(ZooPanel pan){
+		super(pan);
+	}
 	public Cabbage() {
 		MessageUtility.logConstractor("Cabbage", "Cabbage");
 	}
 
+	@Override
+	public String toString() {
+		return this.getClass().getSimpleName();
+	}
 }

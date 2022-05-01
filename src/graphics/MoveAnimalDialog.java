@@ -1,6 +1,7 @@
 package graphics;
 
 import mobility.Point;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -14,11 +15,12 @@ public class MoveAnimalDialog extends JDialog implements ActionListener {
     private JSlider sliderY;
     private JButton moveButton;
 
+
     /**
      * MoveAnimal constructor
      * @param parent the frame that opened MoveAnimalDialog
      */
-    public MoveAnimalDialog(JFrame parent) {
+    public MoveAnimalDialog(ZooFrame parent) {
         super(parent, true);
 
         if(parent instanceof ZooFrame){
@@ -161,8 +163,9 @@ public class MoveAnimalDialog extends JDialog implements ActionListener {
             if(selectedAnimalIndex == -1){
                 JOptionPane.showMessageDialog(getContentPane(), "Please select an animal");
             }else{
-                parent.updateLocationAtDataBase(selectedAnimalIndex,new Point(selectedXlocation,selectedYlocation));
+                parent.getPanel().updateLocationAtDataBase(selectedAnimalIndex,new Point(selectedXlocation,selectedYlocation));
                 parent.getPanel().manageZoo();//call the manageZoo to make the changes on the panel
+                parent.getPanel().refreshInfoModel();
             }
 
         }

@@ -1,12 +1,17 @@
 package graphics;
 
 import animals.Animal;
+import food.IEdible;
+import mobility.ILocatable;
 import mobility.Point;
-
+import plants.Plant;
+import privateutil.AnimalModel;
+import privateutil.Meat;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.Collections;
+
 
 /**
  * The type Zoo panel.
@@ -17,24 +22,81 @@ import java.util.Collections;
  */
 public class ZooPanel extends JPanel{
     private final ArrayList<Animal> animalsArray = new ArrayList<Animal>(); //represents all of animals at the zoo (Data Base)
+
+    private final ArrayList<Object> foodArray = new ArrayList<Object>();
+    private BufferedImage meatImage = null;
     private ImageIcon backgroundImage = null;
+
+   public ZooPanel(){
+       this.setLayout(new BorderLayout());
+
+   }
 
 
     public void manageZoo() {
         if (isChange()){
-                repaint();
+            if(checkIfAnimalAte()){
 
-            // need to check if some animal can eat another animal according to their locations
+            }
+                repaint();
 
             changesDone();
         }
 
 
-
-
-
-
     }
+
+    /**
+     * checks if any animal is close enough to the food
+     * if yes, and if it can, eat
+     * @return  true if animal ate , else return false
+     */
+    public boolean checkIfAnimalAte() {
+        int animalIndex;
+        int foodIndex = 0;
+        int otherAnimalIndex;
+        for (Animal animal : animalsArray) {
+            animalIndex = 0;
+            System.out.println("Animal Index"+foodIndex);
+            for (Object food : foodArray) {
+                System.out.println("Animal Index"+animalIndex);
+                if (food instanceof ILocatable && food instanceof IEdible) {
+                    if (animal.calcDistance(((ILocatable) food).getLocation()) < animal.getEatDistance()) {
+                        if(animal.eat((IEdible) food)){
+                            foodArray.remove(foodIndex);
+                            animalsArray.get(animalIndex).eatInc();
+                            refreshInfoModel();
+                            return true;
+                        }
+                    }
+                }
+                foodIndex += 1;
+            }
+
+            otherAnimalIndex = 0;
+            for (Animal otherAnimal : animalsArray) {
+
+                System.out.println("Animal Index"+animalIndex);
+                if (animalIndex != otherAnimalIndex) {
+
+                    if (animal.calcDistance(((ILocatable) otherAnimal).getLocation()) < otherAnimal.getSize() && animal.getWeight() >= otherAnimal.getWeight()*2) {
+                        if(animal.eat((IEdible) otherAnimal)){
+                            animalsArray.remove(otherAnimalIndex);
+                            animalsArray.get(animalIndex).eatInc();
+                            refreshInfoModel();
+                            return true;
+                        }
+                    }
+                }
+                otherAnimalIndex += 1;
+            }
+
+            animalIndex += 1;
+
+        }
+        return false;
+    }
+
 
     /**
      * @return true if animal coordinate changed, else return false
@@ -110,6 +172,22 @@ public class ZooPanel extends JPanel{
     }
 
     /**
+     * add plant to plantArray and make it visible
+     * @param food some type of food
+     */
+    public void makeFoodVisible(Object food){
+        if(food instanceof Plant){
+            ((Plant) food).loadImages(food.toString());
+            foodArray.add((Plant) food);
+
+        }else if(food instanceof Meat){//this is for Meat
+            ((Meat) food).loadImages(food.toString());
+            foodArray.add((Meat)food);
+        }
+        this.repaint();
+    }
+
+    /**
      * update the location of animal
      * @param indexOfAnimal
      */
@@ -120,11 +198,25 @@ public class ZooPanel extends JPanel{
         System.out.println(animalsArray.get(indexOfAnimal).getLocation());
     }
 
+
+    /**
+     * update the location of selected animal in the database
+     * @param indexOfAnimal
+     * @param location
+     */
+    public void updateLocationAtDataBase(int indexOfAnimal, Point location){
+        this.updateLocationOfAnimal(indexOfAnimal, location);
+
+        System.out.println("location updated");
+    }
+
+
     /**
      * remove all elements from animal array
      */
     public void removeAllAnimals(){
         animalsArray.clear();
+
     }
 
 
@@ -142,8 +234,28 @@ public class ZooPanel extends JPanel{
             animal.drawObject(g);
         }
 
+        for (Object food: foodArray){
+            if(food instanceof Plant){
+                ((Plant) food).drawObject(g);
+            }else if(food instanceof Meat){
+                ((Meat) food).drawObject(g);
+            }
+
+        }
+
+
+
 
     }
+
+
+    public void refreshInfoModel() {
+        AnimalModel.getInstance().refreshInfoModel(this.animalsArray);
+    }
+
+
+
+
 
 
 }

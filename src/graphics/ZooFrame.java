@@ -1,15 +1,22 @@
 package graphics;
 
+import plants.Cabbage;
+import plants.Lettuce;
 import privateutil.AnimalModel;
 import mobility.Point;
+import privateutil.Meat;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.Objects;
 
 import static privateutil.MyStrings.*;
+import static privateutil.MyStrings.MEAT;
 
 
 /**
@@ -37,6 +44,7 @@ public class ZooFrame extends JFrame implements ActionListener{
         this.addCustomMenuBar();
         this.addCustomButtonPanel();
         this.add(zooPanel);
+
         this.infoTable.setFillsViewportHeight(true);
         infoFrame.add(new JScrollPane(infoTable));
         this.pack();
@@ -130,6 +138,7 @@ public class ZooFrame extends JFrame implements ActionListener{
         menuBar.add(helpMenu);
     }
 
+
     /**
      * createButtonPanel create a panel including buttons in it
      * adds the panel to the south of zoo frame
@@ -182,8 +191,15 @@ public class ZooFrame extends JFrame implements ActionListener{
 
     }
 
-
     //-------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    /**
+     *
+     * @return an array of strings from each animal in the database
+     */
+    public ArrayList<String> getZooPanelDataBaseStrings(){
+        return this.zooPanel.getAnimalArray();
+    }
 
     /**
      * gets selected animal as parameter (Object type)
@@ -197,30 +213,12 @@ public class ZooFrame extends JFrame implements ActionListener{
     }
 
     /**
-     * update the location of selected animal in the database
-     * @param indexOfAnimal
-     * @param location
-     */
-    public void updateLocationAtDataBase(int indexOfAnimal, Point location){
-        this.zooPanel.updateLocationOfAnimal(indexOfAnimal, location);
-
-        System.out.println("location updated");
-    }
-
-    /**
-     *
-     * @return an array of strings from each animal in the database
-     */
-    public ArrayList<String> getZooPanelDataBaseStrings(){
-        return this.zooPanel.getAnimalArray();
-    }
-
-    /**
      * remove all elements from database
      */
     public void removeAllFromDataBase(){
-        zooPanel.removeAllAnimals();
+        this.zooPanel.removeAllAnimals();
     }
+
 
     //TODO: maybe there is a need to remove this method
     public ZooPanel getPanel(){
@@ -270,6 +268,7 @@ public class ZooFrame extends JFrame implements ActionListener{
             case FOOD -> {
                 //Custom button text
                 Object[] options = {LETTUCE, CABBAGE, MEAT};
+                String selectedFood = "";
                 int result = JOptionPane.showOptionDialog(null,
                         "Please choose food",
                         "Food for animal",
@@ -280,11 +279,11 @@ public class ZooFrame extends JFrame implements ActionListener{
                         options[2]);
 
                 switch (result){
-                    case 0-> System.out.println("Lettuce");
+                    case 0-> zooPanel.makeFoodVisible(new Lettuce(this.zooPanel));
 
-                    case 1-> System.out.println("Cabbage");
+                    case 1-> zooPanel.makeFoodVisible(new Cabbage(this.zooPanel));
 
-                    case 2-> System.out.println("Meat");
+                    case 2-> zooPanel.makeFoodVisible(new Meat(this.zooPanel));
 
                 }
             }
@@ -299,8 +298,11 @@ public class ZooFrame extends JFrame implements ActionListener{
 
             case EXIT -> System.exit(0);
 
+
+
         }
-        zooPanel.repaint();
+        zooPanel.manageZoo();
     }
+
 
 }

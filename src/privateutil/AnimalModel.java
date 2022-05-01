@@ -2,8 +2,11 @@ package privateutil;
 
 
 import animals.Animal;
+import graphics.ZooFrame;
+import graphics.ZooPanel;
 
 import javax.swing.table.DefaultTableModel;
+import java.util.ArrayList;
 
 public class AnimalModel {
 
@@ -45,7 +48,17 @@ public class AnimalModel {
         }
     }
 
+    /**
+     * refresh the info model
+     * @param animalArrayList
+     */
+    public void refreshInfoModel(ArrayList<Animal> animalArrayList) {
+        clearInfoModel();
+        for(Animal animal: animalArrayList){
+            this.updateInfoModel(animal);
+        }
 
+    }
 
     /**
      * @return info model (model for information of animals)
