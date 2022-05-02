@@ -77,7 +77,10 @@ public class AnimalModel {
         for (int i = rowCount - 1; i >= 0; i--) {
             infoModel.removeRow(i);
         }
+
     }
 
+
+    //TODO:testing
 
 }

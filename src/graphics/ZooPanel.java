@@ -7,10 +7,14 @@ import mobility.Point;
 import plants.Plant;
 import privateutil.AnimalModel;
 import privateutil.Meat;
+
+import javax.security.auth.callback.Callback;
+import javax.security.auth.callback.CallbackHandler;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.concurrent.Callable;
 
 
 /**
@@ -20,7 +24,7 @@ import java.util.ArrayList;
  * @campus Ashdod
  * @version 1.0 April 20,22
  */
-public class ZooPanel extends JPanel{
+public class ZooPanel extends JPanel implements Callback {
     private final ArrayList<Animal> animalsArray = new ArrayList<Animal>(); //represents all of animals at the zoo (Data Base)
 
     private final ArrayList<Object> foodArray = new ArrayList<Object>();
@@ -140,14 +144,10 @@ public class ZooPanel extends JPanel{
      * @param backgroundImage background image
      * @return true if the background image is not null, else return false
      */
-    public boolean setBackgroundImage(ImageIcon backgroundImage){
-        boolean is_successful = (backgroundImage != null);
+    public void setBackgroundImage(ImageIcon backgroundImage){
+        System.out.println("set Background image");
+        this.backgroundImage = backgroundImage;
 
-        if(is_successful){
-            System.out.println("set Background image");
-            this.backgroundImage = backgroundImage;
-        }
-        return is_successful;
     }
 
     /**
@@ -252,7 +252,6 @@ public class ZooPanel extends JPanel{
     public void refreshInfoModel() {
         AnimalModel.getInstance().refreshInfoModel(this.animalsArray);
     }
-
 
 
 

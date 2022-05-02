@@ -262,6 +262,7 @@ public class ZooFrame extends JFrame implements ActionListener{
                 this.removeAllFromDataBase();
                 AnimalModel.getInstance().clearInfoModel();
                 System.out.println("DataBase has been removed!");
+                zooPanel.repaint();
 
             }
 
@@ -302,6 +303,7 @@ public class ZooFrame extends JFrame implements ActionListener{
 
         }
         zooPanel.manageZoo();
+        zooPanel.repaint();
     }
 
 
